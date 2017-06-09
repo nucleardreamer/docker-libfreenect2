@@ -23,7 +23,7 @@ RUN git clone https://github.com/OpenKinect/libfreenect2.git \
     && cd libfreenect2 \
     && /bin/bash -c "if ! [ $TAG == false ]; then git checkout tags/$TAG; fi" \
     && mkdir build && cd build \
-    && cmake .. -DCMAKE_INSTALL_PREFIX=/root/freenect2 -Dfreenect2_DIR=/root/freenect2/lib/cmake/freenect2 \
+    && cmake .. -DBUILD_OPENNI2_DRIVER=ON -DCMAKE_INSTALL_PREFIX=/root/freenect2 \
     && make \
     && make install \
     && cp /libfreenect2/platform/linux/udev/90-kinect2.rules /etc/udev/rules.d/ \
