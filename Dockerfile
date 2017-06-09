@@ -1,6 +1,8 @@
 FROM ubuntu:xenial
+LABEL maintainer "Flynn Joffray <nucleardreamer@gmail.com>"
 
 ARG DEBIAN_FRONTENT=noninteractive
+ARG TAG=false
 
 RUN apt-get update && apt-get install -yq \
     beignet-dev \
@@ -19,10 +21,13 @@ RUN apt-get update && apt-get install -yq \
 
 RUN git clone https://github.com/OpenKinect/libfreenect2.git \
     && cd libfreenect2 \
+    && /bin/bash -c "if ! [ $TAG == false ]; then git checkout tags/$TAG; fi" \
     && mkdir build && cd build \
     && cmake .. -DCMAKE_INSTALL_PREFIX=/root/freenect2 -Dfreenect2_DIR=/root/freenect2/lib/cmake/freenect2 \
     && make \
     && make install \
     && cp /libfreenect2/platform/linux/udev/90-kinect2.rules /etc/udev/rules.d/ \
     && ldconfig /root/freenect2 \
-    && ln -s /libfreenect2/build/bin/Protonect /usr/local/bin/kinect_test
+    && ln -s /libfreenect2/build/bin/Protonect /usr/local/bin/kinect_test \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
