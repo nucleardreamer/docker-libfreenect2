@@ -7,7 +7,8 @@ docker build -t nucleardreamer/libfreenect2 .
 ```
 
 ## running
-If you want to run the test, you will need to expose your X server socket and have it for 
+If you want to run the test, you will need to expose your X server socket
+
 ```
 xhost +local:root
 docker run -it --privileged \
